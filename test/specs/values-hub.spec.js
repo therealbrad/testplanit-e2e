@@ -8,27 +8,27 @@ describe('Core Values Hub Page', () => {
   });
 
   describe('Hero section', () => {
-    it('displays the "Our Core Values" heading', async () => {
+    it('[78] displays the "Our Core Values" heading', async () => {
       await expect(valuesHubPage.heroHeading).toBeDisplayed();
     });
 
-    it('shows the tagline about five principles', async () => {
+    it('[79] shows the tagline about five principles', async () => {
       await expect(valuesHubPage.tagline).toBeDisplayed();
     });
 
-    it('displays the Get Started Free CTA', async () => {
+    it('[80] displays the Get Started Free CTA', async () => {
       await expect(valuesHubPage.getStartedCta).toBeDisplayed();
     });
   });
 
   describe('Values cards', () => {
-    it('displays all five core values cards', async () => {
+    it('[81] displays all five core values cards', async () => {
       for (const { label } of VALUE_PAGES) {
         await expect(valuesHubPage.card(label)).toBeDisplayed();
       }
     });
 
-    it('each values card links to its dedicated sub-page', async () => {
+    it('[82] each values card links to its dedicated sub-page', async () => {
       for (const { slug } of VALUE_PAGES) {
         const exists = await valuesHubPage.cardLink(slug).isExisting();
         await expect(exists).toBe(true);
@@ -37,7 +37,7 @@ describe('Core Values Hub Page', () => {
   });
 
   describe('Inter-page navigation', () => {
-    it('navigates to Privacy First and returns via the nav', async () => {
+    it('[83] navigates to Privacy First and returns via the nav', async () => {
       await valuesHubPage.navigateTo(VALUE_PAGES[0].slug);
       await expect(browser).toHaveUrlContaining(URLS.privacyFirst);
 
@@ -51,7 +51,7 @@ describe('Core Values Hub Page', () => {
       await expect(browser).toHaveUrlContaining(URLS.values);
     });
 
-    it('navigates to Open by Default and verifies the page renders', async () => {
+    it('[84] navigates to Open by Default and verifies the page renders', async () => {
       await browser.url(URLS.values);
       await valuesHubPage.navigateTo(VALUE_PAGES[4].slug);
       // h1=Open by Default exists on that page
@@ -65,7 +65,7 @@ describe('Core Values Hub Page', () => {
       await browser.url(URLS.values);
     });
 
-    it('shows all five values page links in the footer by href', async () => {
+    it('[85] shows all five values page links in the footer by href', async () => {
       for (const { slug } of VALUE_PAGES) {
         const link = await $(`footer a[href="${slug}"]`);
         const exists = await link.isExisting();

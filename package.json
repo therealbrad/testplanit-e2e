@@ -9,6 +9,7 @@
     "test:pricing": "wdio run wdio.conf.js --spec test/specs/pricing.spec.js"
   },
   "dependencies": {
+    "@testplanit/wdio-reporter": "^0.4.0",
     "@wdio/cli": "^8.39.0",
     "@wdio/globals": "^8.39.0",
     "@wdio/junit-reporter": "^8.36.1",
@@ -16,6 +17,7 @@
     "@wdio/mocha-framework": "^8.36.1",
     "@wdio/spec-reporter": "^8.36.1",
     "chromedriver": "^147.0.4",
+    "dotenv": "^17.4.2",
     "wdio-chromedriver-service": "^8.1.1"
   },
   "devDependencies": {

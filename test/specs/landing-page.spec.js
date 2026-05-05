@@ -8,29 +8,29 @@ describe('Landing Page', () => {
   });
 
   describe('Hero section', () => {
-    it('displays the main headline', async () => {
+    it('[2] displays the main headline', async () => {
       await expect(landingPage.heroHeading).toBeDisplayed();
       await expect(landingPage.heroHeading).toHaveTextContaining('Test Management');
     });
 
-    it('shows the primary Get Started CTA', async () => {
+    it('[29] shows the primary Get Started CTA', async () => {
       await expect(landingPage.getStartedCta).toBeDisplayed();
     });
 
-    it('shows the Try a Demo link in navigation', async () => {
+    it('[7] shows the Try a Demo link in navigation', async () => {
       await expect(landingPage.tryDemoLink).toBeDisplayed();
     });
   });
 
   describe('Navigation', () => {
-    it('renders all primary nav links', async () => {
+    it('[1] renders all primary nav links', async () => {
       for (const label of NAV_LINKS) {
         const link = landingPage.nav(label);
         await expect(link).toBeDisplayed();
       }
     });
 
-    it('navigates to Pricing page when Pricing link is clicked', async () => {
+    it('[61] navigates to Pricing page when Pricing link is clicked', async () => {
       const pricingLink = landingPage.nav('Pricing');
       await pricingLink.click();
       await browser.waitUntil(
@@ -47,12 +47,12 @@ describe('Landing Page', () => {
       await landingPage.open();
     });
 
-    it('shows the QuickScript feature announcement', async () => {
+    it('[3] shows the QuickScript feature announcement', async () => {
       await landingPage.quickScriptBadge.scrollIntoView();
       await expect(landingPage.quickScriptBadge).toBeDisplayed();
     });
 
-    it('shows the No Per-Seat Pricing value proposition', async () => {
+    it('[6] shows the No Per-Seat Pricing value proposition', async () => {
       await landingPage.noPerSeatProp.scrollIntoView();
       await expect(landingPage.noPerSeatProp).toBeDisplayed();
     });

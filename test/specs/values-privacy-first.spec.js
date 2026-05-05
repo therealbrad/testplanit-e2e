@@ -12,21 +12,28 @@ const TARGET_AUDIENCES = [
   'Data sovereignty',
 ];
 
+const AUDIENCE_CASE_IDS = {
+  'Regulated industries': 74,
+  'Security-conscious': 75,
+  'Air-gapped': 76,
+  'Data sovereignty': 77,
+};
+
 describe('Privacy First Value Page', () => {
   before(async () => {
     await privacyFirstPage.open();
   });
 
   describe('Hero section', () => {
-    it('displays the Privacy First headline', async () => {
+    it('[10] displays the Privacy First headline', async () => {
       await expect(privacyFirstPage.pillar('Privacy First')).toBeDisplayed();
     });
 
-    it('shows the Get Started Free CTA', async () => {
+    it('[71] shows the Get Started Free CTA', async () => {
       await expect(privacyFirstPage.getStartedCta).toBeDisplayed();
     });
 
-    it('shows the View Source Code CTA linking to GitHub', async () => {
+    it('[30] shows the View Source Code CTA linking to GitHub', async () => {
       await expect(privacyFirstPage.viewSourceCta).toBeDisplayed();
       const href = await privacyFirstPage.viewSourceCta.getAttribute('href');
       await expect(href).toContain('github.com');
@@ -34,61 +41,61 @@ describe('Privacy First Value Page', () => {
   });
 
   describe('Three Pillars section', () => {
-    it('displays the Self-Host Everything pillar', async () => {
+    it('[11] displays the Self-Host Everything pillar', async () => {
       await expect(privacyFirstPage.pillar('Self-Host Everything')).toBeDisplayed();
     });
 
-    it('displays the Bring Your Own LLM pillar', async () => {
+    it('[11] displays the Bring Your Own LLM pillar', async () => {
       await expect(privacyFirstPage.pillar('Bring Your Own LLM')).toBeDisplayed();
     });
 
-    it('displays the Self-Hosted Git Repos pillar', async () => {
+    it('[11] displays the Self-Hosted Git Repos pillar', async () => {
       await expect(privacyFirstPage.pillar('Self-Hosted Git Repos')).toBeDisplayed();
     });
   });
 
   describe('Comparison table', () => {
-    it('renders the Cloud-Only Tools column header', async () => {
+    it('[12] renders the Cloud-Only Tools column header', async () => {
       await expect(privacyFirstPage.tableCell('Cloud-Only Tools')).toBeDisplayed();
     });
 
-    it('renders the Self-Hosted TestPlanIt column header', async () => {
+    it('[12] renders the Self-Hosted TestPlanIt column header', async () => {
       await expect(privacyFirstPage.tableCell('Self-Hosted TestPlanIt')).toBeDisplayed();
     });
 
-    it('covers the compliance control row', async () => {
+    it('[72] covers the compliance control row', async () => {
       await expect(privacyFirstPage.tableCell('Compliance')).toBeDisplayed();
     });
 
-    it('covers the audit capabilities row', async () => {
+    it('[73] covers the audit capabilities row', async () => {
       await expect(privacyFirstPage.tableCell('Audit')).toBeDisplayed();
     });
   });
 
   describe('Deployment Options section', () => {
-    it('shows the Fully Air-Gapped deployment scenario', async () => {
+    it('[13] shows the Fully Air-Gapped deployment scenario', async () => {
       await expect(privacyFirstPage.deployment('Air-Gapped')).toBeDisplayed();
     });
 
-    it('shows the Hybrid Deployment scenario', async () => {
+    it('[13] shows the Hybrid Deployment scenario', async () => {
       await expect(privacyFirstPage.deployment('Hybrid')).toBeDisplayed();
     });
 
-    it('shows the Managed + Private AI scenario', async () => {
+    it('[13] shows the Managed + Private AI scenario', async () => {
       await expect(privacyFirstPage.deployment('Private AI')).toBeDisplayed();
     });
   });
 
   describe('Target Audience section', () => {
     for (const audience of TARGET_AUDIENCES) {
-      it(`shows the "${audience}" use case`, async () => {
+      it(`[${AUDIENCE_CASE_IDS[audience]}] shows the "${audience}" use case`, async () => {
         await expect(privacyFirstPage.audience(audience)).toBeDisplayed();
       });
     }
   });
 
   describe('Responsive layout', () => {
-    it('comparison table is accessible at 375px viewport', async () => {
+    it('[14] comparison table is accessible at 375px viewport', async () => {
       await setMobileViewport();
       await browser.url(URLS.privacyFirst);
       const table = await $('//th[contains(normalize-space(),"Cloud-Only Tools")]');

@@ -19,35 +19,35 @@ describe('Open by Default Value Page', () => {
   });
 
   describe('Hero section', () => {
-    it('displays the Open by Default headline', async () => {
+    it('[4] displays the Open by Default headline', async () => {
       await expect(openByDefaultPage.pillar('Open by Default')).toBeDisplayed();
     });
 
-    it('shows the View on GitHub CTA', async () => {
+    it('[62] shows the View on GitHub CTA', async () => {
       await expect(openByDefaultPage.viewGithubCta).toBeDisplayed();
     });
 
-    it('View on GitHub links to the correct GitHub repository', async () => {
+    it('[62] View on GitHub links to the correct GitHub repository', async () => {
       const href = await openByDefaultPage.viewGithubCta.getAttribute('href');
       await expect(href).toContain('github.com');
       await expect(href).toContain('testplanit');
     });
 
-    it('shows the Licensing Details CTA', async () => {
+    it('[63] shows the Licensing Details CTA', async () => {
       await expect(openByDefaultPage.licensingCta).toBeDisplayed();
     });
   });
 
   describe('Three Pillars section', () => {
-    it('displays the AGPL-3.0 License pillar', async () => {
+    it('[64] displays the AGPL-3.0 License pillar', async () => {
       await expect(openByDefaultPage.pillar('AGPL-3.0 License')).toBeDisplayed();
     });
 
-    it('displays the Public Codebase pillar', async () => {
+    it('[65] displays the Public Codebase pillar', async () => {
       await expect(openByDefaultPage.pillar('Public Codebase')).toBeDisplayed();
     });
 
-    it('displays the Community Contributions pillar', async () => {
+    it('[66] displays the Community Contributions pillar', async () => {
       await expect(openByDefaultPage.pillar('Community Contributions')).toBeDisplayed();
     });
   });
@@ -59,7 +59,7 @@ describe('Open by Default Value Page', () => {
     });
 
     for (const snippet of AGPL_GUARANTEES) {
-      it(`lists the guarantee: "${snippet}"`, async () => {
+      it(`[5] lists the guarantee: "${snippet}"`, async () => {
         const el = await $(`span*=${snippet}`);
         await expect(el).toBeDisplayed();
       });
@@ -67,35 +67,35 @@ describe('Open by Default Value Page', () => {
   });
 
   describe('Why it matters section', () => {
-    it('mentions Healthier Ecosystems', async () => {
+    it('[8] mentions Healthier Ecosystems', async () => {
       await expect(openByDefaultPage.pillar('Healthier Ecosystems')).toBeDisplayed();
     });
 
-    it('mentions Fork-Friendly', async () => {
+    it('[8] mentions Fork-Friendly', async () => {
       await expect(openByDefaultPage.pillar('Fork-Friendly')).toBeDisplayed();
     });
 
-    it('mentions Global Collaboration', async () => {
+    it('[67] mentions Global Collaboration', async () => {
       await expect(openByDefaultPage.pillar('Global Collaboration')).toBeDisplayed();
     });
   });
 
   describe('Comparison table', () => {
-    it('renders a comparison of TestPlanIt vs. proprietary tools', async () => {
+    it('[68] renders a comparison of TestPlanIt vs. proprietary tools', async () => {
       await expect(openByDefaultPage.tableCell('TestPlanIt')).toBeDisplayed();
     });
 
-    it('covers the source code row', async () => {
+    it('[69] covers the source code row', async () => {
       await expect(openByDefaultPage.tableCell('Source')).toBeDisplayed();
     });
 
-    it('covers the forking row', async () => {
+    it('[70] covers the forking row', async () => {
       await expect(openByDefaultPage.tableCell('Fork')).toBeDisplayed();
     });
   });
 
   describe('Responsive layout', () => {
-    it('page is accessible at 375px viewport', async () => {
+    it('[9] page is accessible at 375px viewport', async () => {
       await setMobileViewport();
       await browser.url(URLS.openSource);
       const heading = await $('h1*=Open by Default');
