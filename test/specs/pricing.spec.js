@@ -1,12 +1,11 @@
-const { expect, browser, $, $$ } = require('@wdio/globals');
+const { expect, browser, $$ } = require('@wdio/globals');
+const pricingPage = require('../pageobjects/PricingPage');
+
+const TIERS = ['Open Source', 'Essentials', 'Team', 'Professional', 'Dedicated'];
 
 describe('Pricing Page', () => {
   before(async () => {
-    await browser.url('/pricing');
-    await browser.waitUntil(
-      async () => (await $('h1,h2').isDisplayed()),
-      { timeout: 10000, timeoutMsg: 'Pricing page did not load' }
-    );
+    await pricingPage.open();
   });
 
   describe('Page structure', () => {
@@ -16,16 +15,13 @@ describe('Pricing Page', () => {
     });
 
     it('shows all five pricing tiers', async () => {
-      const tiers = ['Open Source', 'Essentials', 'Team', 'Professional', 'Dedicated'];
-      for (const tier of tiers) {
-        const el = await $(`*=${tier}`);
-        await expect(el).toBeDisplayed();
+      for (const tier of TIERS) {
+        await expect(pricingPage.tier(tier)).toBeDisplayed();
       }
     });
 
-    it('highlights Team as the most popular plan', async () => {
-      const badge = await $('*=Most Popular');
-      await expect(badge).toBeDisplayed();
+    it('highlights a plan as the Most Popular', async () => {
+      await expect(pricingPage.mostPopularBadge).toBeDisplayed();
     });
   });
 
@@ -36,8 +32,7 @@ describe('Pricing Page', () => {
     });
 
     it('switches to annual pricing when the toggle is clicked', async () => {
-      const toggle = await $('*=Save 15%');
-      await toggle.click();
+      await pricingPage.toggleAnnual();
       await browser.pause(500);
       const annualBadge = await $('*=Save 15%');
       await expect(annualBadge).toBeDisplayed();
@@ -75,8 +70,7 @@ describe('Pricing Page', () => {
 
   describe('FAQ', () => {
     it('shows the FAQ section', async () => {
-      const faq = await $('*=Frequently Asked Questions');
-      await expect(faq).toBeDisplayed();
+      await expect(pricingPage.faqSection).toBeDisplayed();
     });
   });
 });
