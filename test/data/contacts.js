@@ -1,30 +1,30 @@
 const VALID_CONTACT = {
-  name: 'Ana Villa Caballero',
-  email: 'ana.villa@bbva.com',
-  company: 'BBVA',
+  name: 'Alex Johnson',
+  email: 'alex.johnson@example.com',
+  company: 'Acme Corp',
   subject: 'Sales Inquiry',
-  message: 'We are evaluating TestPlanIt for our QA organisation and would love to discuss enterprise options.',
+  message: 'We are evaluating TestPlanIt for our QA team and would love to discuss enterprise options.',
 };
 
 const MISSING_NAME = {
-  email: 'ana.villa@bbva.com',
-  company: 'BBVA',
+  email: 'alex.johnson@example.com',
+  company: 'Acme Corp',
   subject: 'Sales Inquiry',
   message: 'Submission without name to verify required field validation.',
 };
 
 const INVALID_EMAIL = {
-  name: 'Alfonso Presa Ruiz',
+  name: 'Sam Rivera',
   email: 'not-a-valid-email',
-  company: 'BBVA',
+  company: 'Acme Corp',
   subject: 'Technical Support',
   message: 'Submission with malformed email address.',
 };
 
 const LONG_MESSAGE = {
-  name: 'Carlos Moreno Sanz',
-  email: 'c.moreno@bbva.com',
-  company: 'BBVA',
+  name: 'Jordan Lee',
+  email: 'jordan.lee@example.com',
+  company: 'Acme Corp',
   subject: 'Feature Request',
   message: 'A'.repeat(1100),
 };

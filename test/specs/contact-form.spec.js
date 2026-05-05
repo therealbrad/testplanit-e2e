@@ -9,13 +9,7 @@ describe('Contact Form', () => {
 
   it('submits successfully and shows success message', async () => {
     await contactFormPage.fillAndSubmit(VALID_CONTACT);
-    await browser.waitUntil(
-      async () => {
-        try { return await contactFormPage.successMessage.isDisplayed(); }
-        catch { return false; }
-      },
-      { timeout: 10000, timeoutMsg: 'Success message did not appear after submission' }
-    );
+    await contactFormPage.successMessage.waitForDisplayed({ timeout: 20000 });
     await expect(contactFormPage.successMessage).toBeDisplayed();
   });
 

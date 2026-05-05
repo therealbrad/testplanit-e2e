@@ -7,10 +7,7 @@ class ContactFormPage extends Page {
   get subjectSelect()  { return $('select[name="subject"]'); }
   get messageInput()   { return $('[name="message"]'); }
   get submitButton()   { return $('button[type="submit"]'); }
-  // XPath scoped to main, excluding script, looking for common success phrases
-  get successMessage() {
-    return $('//main//*[not(self::script) and (contains(text(),"Thank you") or contains(text(),"sent") or contains(text(),"touch") or contains(text(),"received"))]');
-  }
+  get successMessage() { return $('h2=Message Sent!'); }
   get errorBanner()    { return $('[role="alert"],.error-message,.form-error'); }
 
   async open() {
