@@ -10,7 +10,7 @@ describe('Pricing Page', () => {
 
   describe('Page structure', () => {
     it('displays the Unlimited Users heading', async () => {
-      const heading = await $('*=Unlimited Users');
+      const heading = await $('h1=Unlimited Users');
       await expect(heading).toBeDisplayed();
     });
 
@@ -26,16 +26,14 @@ describe('Pricing Page', () => {
   });
 
   describe('Pricing toggle', () => {
-    it('shows the monthly/annual billing toggle', async () => {
-      const toggle = await $('*=Save 15%');
-      await expect(toggle).toBeDisplayed();
+    it('shows the Save 15% annual badge', async () => {
+      await expect(pricingPage.save15Badge).toBeDisplayed();
     });
 
-    it('switches to annual pricing when the toggle is clicked', async () => {
+    it('toggles to annual pricing when the switch is clicked', async () => {
       await pricingPage.toggleAnnual();
-      await browser.pause(500);
-      const annualBadge = await $('*=Save 15%');
-      await expect(annualBadge).toBeDisplayed();
+      await browser.pause(400);
+      await expect(pricingPage.save15Badge).toBeDisplayed();
     });
   });
 
@@ -58,18 +56,19 @@ describe('Pricing Page', () => {
 
   describe('Comparison section', () => {
     it('shows the Stop Paying Per Seat section', async () => {
-      const section = await $('*=Stop Paying Per Seat');
-      await expect(section).toBeDisplayed();
+      await pricingPage.stopPerSeatSection.scrollIntoView();
+      await expect(pricingPage.stopPerSeatSection).toBeDisplayed();
     });
 
     it('renders the Compare Plans feature matrix', async () => {
-      const compareSection = await $('*=Compare Plans');
-      await expect(compareSection).toBeDisplayed();
+      await pricingPage.comparisonSection.scrollIntoView();
+      await expect(pricingPage.comparisonSection).toBeDisplayed();
     });
   });
 
   describe('FAQ', () => {
-    it('shows the FAQ section', async () => {
+    it('shows the Frequently Asked Questions section', async () => {
+      await pricingPage.faqSection.scrollIntoView();
       await expect(pricingPage.faqSection).toBeDisplayed();
     });
   });

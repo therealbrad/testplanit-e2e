@@ -43,11 +43,17 @@ describe('Landing Page', () => {
   });
 
   describe('Feature highlights', () => {
+    before(async () => {
+      await landingPage.open();
+    });
+
     it('shows the QuickScript feature announcement', async () => {
+      await landingPage.quickScriptBadge.scrollIntoView();
       await expect(landingPage.quickScriptBadge).toBeDisplayed();
     });
 
     it('shows the No Per-Seat Pricing value proposition', async () => {
+      await landingPage.noPerSeatProp.scrollIntoView();
       await expect(landingPage.noPerSeatProp).toBeDisplayed();
     });
   });

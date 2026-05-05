@@ -1,17 +1,16 @@
-const { expect, browser } = require('@wdio/globals');
+const { expect, browser, $ } = require('@wdio/globals');
 const ValuePage = require('../pageobjects/ValuePage');
 const { URLS } = require('../data/pages');
 const { setMobileViewport, setDesktopViewport } = require('../helpers/waitUtils');
 
 const openByDefaultPage = new ValuePage(URLS.openSource);
 
-const AGPL_GUARANTEES = ['read', 'modify', 'network', 'commercial'];
-
-const STATS = [
-  'AGPL-3.0 Licensed',
-  '100% Public Source',
-  'Open Issue Tracker',
-  'Fork Friendly',
+// Actual span text from the "What AGPL-3.0 guarantees" section
+const AGPL_GUARANTEES = [
+  'Anyone can read',
+  'Modifications must stay open',
+  'Network users also get source',
+  'Commercial use is allowed',
 ];
 
 describe('Open by Default Value Page', () => {
@@ -20,8 +19,8 @@ describe('Open by Default Value Page', () => {
   });
 
   describe('Hero section', () => {
-    it('displays the AGPL-3.0 commitment headline', async () => {
-      await expect(openByDefaultPage.pillar('AGPL')).toBeDisplayed();
+    it('displays the Open by Default headline', async () => {
+      await expect(openByDefaultPage.pillar('Open by Default')).toBeDisplayed();
     });
 
     it('shows the View on GitHub CTA', async () => {
@@ -54,19 +53,31 @@ describe('Open by Default Value Page', () => {
   });
 
   describe('Why AGPL-3.0 section', () => {
-    for (const guarantee of AGPL_GUARANTEES) {
-      it(`lists the right to ${guarantee}`, async () => {
-        await expect(openByDefaultPage.pillar(guarantee)).toBeDisplayed();
+    before(async () => {
+      const section = await $('h2*=AGPL-3.0');
+      await section.scrollIntoView();
+    });
+
+    for (const snippet of AGPL_GUARANTEES) {
+      it(`lists the guarantee: "${snippet}"`, async () => {
+        const el = await $(`span*=${snippet}`);
+        await expect(el).toBeDisplayed();
       });
     }
   });
 
-  describe('Stats bar', () => {
-    for (const stat of STATS) {
-      it(`displays the "${stat}" stat`, async () => {
-        await expect(openByDefaultPage.stat(stat)).toBeDisplayed();
-      });
-    }
+  describe('Why it matters section', () => {
+    it('mentions Healthier Ecosystems', async () => {
+      await expect(openByDefaultPage.pillar('Healthier Ecosystems')).toBeDisplayed();
+    });
+
+    it('mentions Fork-Friendly', async () => {
+      await expect(openByDefaultPage.pillar('Fork-Friendly')).toBeDisplayed();
+    });
+
+    it('mentions Global Collaboration', async () => {
+      await expect(openByDefaultPage.pillar('Global Collaboration')).toBeDisplayed();
+    });
   });
 
   describe('Comparison table', () => {
@@ -84,10 +95,11 @@ describe('Open by Default Value Page', () => {
   });
 
   describe('Responsive layout', () => {
-    it('stats bar is visible at 375px viewport', async () => {
+    it('page is accessible at 375px viewport', async () => {
       await setMobileViewport();
       await browser.url(URLS.openSource);
-      await expect(openByDefaultPage.stat('AGPL-3.0 Licensed')).toBeDisplayed();
+      const heading = await $('h1*=Open by Default');
+      await expect(heading).toBeDisplayed();
       await setDesktopViewport();
     });
   });

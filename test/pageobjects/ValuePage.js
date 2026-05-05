@@ -1,5 +1,13 @@
 const Page = require('./Page');
 
+// XPath helper: find visible text in headings/body elements, excluding script/style
+function noScript(tag, text) {
+  return `//${tag}[contains(normalize-space(),"${text}")]`;
+}
+function noScriptExact(text) {
+  return `//*[not(self::script) and not(self::style) and normalize-space()="${text}"]`;
+}
+
 class ValuePage extends Page {
   constructor(slug) {
     super();
@@ -12,11 +20,26 @@ class ValuePage extends Page {
   get viewGithubCta()   { return $('a=View on GitHub'); }
   get licensingCta()    { return $('a=Licensing Details'); }
 
-  pillar(text)     { return $(`*=${text}`); }
-  tableCell(text)  { return $(`*=${text}`); }
-  stat(text)       { return $(`*=${text}`); }
-  audience(text)   { return $(`*=${text}`); }
-  deployment(text) { return $(`*=${text}`); }
+  // heading-specific: h1/h2/h3 won't match script elements
+  pillar(text) {
+    return $(`${noScript('h1', text)} | ${noScript('h2', text)} | ${noScript('h3', text)}`);
+  }
+
+  // table th/td cells
+  tableCell(text) {
+    return $(`${noScript('th', text)} | ${noScript('td', text)}`);
+  }
+
+  // span or p with exact text for stat-style callouts
+  stat(text) {
+    return $(`${noScript('span', text)} | ${noScript('p', text)} | ${noScript('h3', text)}`);
+  }
+
+  // paragraph partial match — won't match script since tag is p
+  audience(text) { return $(`p*=${text}`); }
+
+  // h3 partial match for deployment scenario headings
+  deployment(text) { return $(`h3*=${text}`); }
 
   async open() {
     await super.open(this.slug);

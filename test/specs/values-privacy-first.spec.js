@@ -91,7 +91,7 @@ describe('Privacy First Value Page', () => {
     it('comparison table is accessible at 375px viewport', async () => {
       await setMobileViewport();
       await browser.url(URLS.privacyFirst);
-      const table = await $('table,*=Cloud-Only Tools');
+      const table = await $('//th[contains(normalize-space(),"Cloud-Only Tools")]');
       await expect(table).toBeDisplayed();
       await setDesktopViewport();
     });

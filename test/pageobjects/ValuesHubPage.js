@@ -2,13 +2,16 @@ const Page = require('./Page');
 const { VALUE_PAGES } = require('../data/pages');
 
 class ValuesHubPage extends Page {
-  get heroHeading()    { return $('*=Our Core Values'); }
-  get tagline()        { return $('*=principles'); }
+  // h1 won't match script; p*= partial match on p won't match script
+  get heroHeading()    { return $('h1=Our Core Values'); }
+  get tagline()        { return $('p*=principles'); }
   get getStartedCta()  { return $('a=Get Started Free'); }
 
-  card(label)     { return $(`*=${label}`); }
-  cardLink(slug)  { return $(`a[href="${slug}"]`); }
-  footerLink(label) { return $(`footer a=${label}`); }
+  // card labels are h2 headings on the values hub page
+  card(label)       { return $(`h2=${label}`); }
+  cardLink(slug)    { return $(`a[href="${slug}"]`); }
+  // scoped to footer element then link text
+  footerLink(label) { return $('footer').$(`a=${label}`); }
 
   async open() {
     await super.open('/values');

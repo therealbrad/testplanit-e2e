@@ -1,16 +1,24 @@
 const Page = require('./Page');
 
-const TIERS = ['Free', 'Starter', 'Team', 'Business', 'Enterprise'];
+// Actual tiers from DOM: "Open Source" is a span badge, others are h3 headings
+const TIERS = ['Open Source', 'Essentials', 'Team', 'Professional', 'Dedicated'];
 
 class PricingPage extends Page {
-  get monthlyToggle()    { return $('*=Monthly,button=Monthly,label=Monthly'); }
-  get annualToggle()     { return $('*=Annual,button=Annual,label=Annual'); }
-  get mostPopularBadge() { return $('*=Most Popular'); }
-  get faqSection()       { return $('*=FAQ,*=Frequently Asked'); }
-  get comparisonSection(){ return $('*=Compare,table'); }
+  // role=switch is the billing toggle
+  get billingToggle()    { return $('[role="switch"]'); }
+  get annualLabel()      { return $('span*=Annual'); }
+  get save15Badge()      { return $('span=Save 15%'); }
+  // Most Popular and Open Source are span badges above the plan cards
+  get mostPopularBadge() { return $('span=Most Popular'); }
+  get faqSection()       { return $('h2=Frequently Asked Questions'); }
+  get comparisonSection(){ return $('h2=Compare Plans'); }
+  get stopPerSeatSection(){ return $('h2=Stop Paying Per Seat'); }
 
-  tier(name) { return $(`*=${name}`); }
-  ctaFor(name) { return $(`*=${name} ~ * a,*=${name} + * a`); }
+  // "Open Source" is a span badge; Essentials/Team/Professional/Dedicated are h3 headings
+  tier(name) {
+    if (name === 'Open Source') return $('span=Open Source');
+    return $(`h3=${name}`);
+  }
 
   async open() {
     await super.open('/pricing');
@@ -18,11 +26,11 @@ class PricingPage extends Page {
   }
 
   async toggleAnnual() {
-    await this.annualToggle.click();
+    await this.billingToggle.click();
   }
 
   async toggleMonthly() {
-    await this.monthlyToggle.click();
+    await this.billingToggle.click();
   }
 
   tiers() { return TIERS; }

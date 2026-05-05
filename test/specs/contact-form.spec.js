@@ -1,4 +1,4 @@
-const { expect, browser } = require('@wdio/globals');
+const { expect, browser, $ } = require('@wdio/globals');
 const contactFormPage = require('../pageobjects/ContactFormPage');
 const { VALID_CONTACT, MISSING_NAME, INVALID_EMAIL, LONG_MESSAGE } = require('../data/contacts');
 
@@ -22,17 +22,16 @@ describe('Contact Form', () => {
   it('shows error when submitted with missing required field', async () => {
     await contactFormPage.fillAndSubmit(MISSING_NAME);
     await expect(browser).toHaveUrlContaining('/contact');
-    const nameInput = await contactFormPage.nameInput;
-    const valid = await browser.execute((el) => el.validity.valid, await nameInput.getElement());
-    await expect(valid).toBe(false);
+    // Browser native validation marks the field as :invalid
+    const invalidField = await $('[name="name"]:invalid');
+    await expect(invalidField).toExist();
   });
 
   it('email field validates format before submission', async () => {
     await contactFormPage.fillAndSubmit(INVALID_EMAIL);
     await expect(browser).toHaveUrlContaining('/contact');
-    const emailInput = await contactFormPage.emailInput;
-    const valid = await browser.execute((el) => el.validity.valid, await emailInput.getElement());
-    await expect(valid).toBe(false);
+    const invalidEmail = await $('[name="email"]:invalid');
+    await expect(invalidEmail).toExist();
   });
 
   it('character limit enforced on the message field', async () => {

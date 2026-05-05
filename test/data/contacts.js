@@ -17,7 +17,7 @@ const INVALID_EMAIL = {
   name: 'Alfonso Presa Ruiz',
   email: 'not-a-valid-email',
   company: 'BBVA',
-  subject: 'Support',
+  subject: 'Technical Support',
   message: 'Submission with malformed email address.',
 };
 
@@ -25,7 +25,7 @@ const LONG_MESSAGE = {
   name: 'Carlos Moreno Sanz',
   email: 'c.moreno@bbva.com',
   company: 'BBVA',
-  subject: 'General Inquiry',
+  subject: 'Feature Request',
   message: 'A'.repeat(1100),
 };
 

@@ -1,4 +1,4 @@
-const { expect, browser } = require('@wdio/globals');
+const { expect, browser, $ } = require('@wdio/globals');
 const valuesHubPage = require('../pageobjects/ValuesHubPage');
 const { VALUE_PAGES, URLS } = require('../data/pages');
 
@@ -41,9 +41,10 @@ describe('Core Values Hub Page', () => {
       await valuesHubPage.navigateTo(VALUE_PAGES[0].slug);
       await expect(browser).toHaveUrlContaining(URLS.privacyFirst);
 
-      const valuesFooterLink = await $('footer a=Values');
-      if (await valuesFooterLink.isExisting()) {
-        await valuesFooterLink.click();
+      // Try footer Core Values link, fall back to direct nav if missing
+      const coreValuesLink = await $('footer').$('a=Core Values');
+      if (await coreValuesLink.isExisting()) {
+        await coreValuesLink.click();
       } else {
         await browser.url(URLS.values);
       }
@@ -53,7 +54,8 @@ describe('Core Values Hub Page', () => {
     it('navigates to Open by Default and verifies the page renders', async () => {
       await browser.url(URLS.values);
       await valuesHubPage.navigateTo(VALUE_PAGES[4].slug);
-      const heading = await $('*=AGPL,*=Open by Default');
+      // h1=Open by Default exists on that page
+      const heading = await $('h1=Open by Default');
       await expect(heading).toBeDisplayed();
     });
   });
@@ -63,9 +65,10 @@ describe('Core Values Hub Page', () => {
       await browser.url(URLS.values);
     });
 
-    it('shows all five values links in the footer', async () => {
-      for (const { label } of VALUE_PAGES) {
-        const exists = await valuesHubPage.footerLink(label).isExisting();
+    it('shows all five values page links in the footer by href', async () => {
+      for (const { slug } of VALUE_PAGES) {
+        const link = await $(`footer a[href="${slug}"]`);
+        const exists = await link.isExisting();
         await expect(exists).toBe(true);
       }
     });
